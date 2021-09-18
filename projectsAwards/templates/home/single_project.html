@@ -1,3 +1,4 @@
+{%extends 'home/base.html'%} {%block content%}
 <div class="row">
 
     {% if project %}
@@ -6,9 +7,48 @@
         <img src="{{project.landing_page.url}}" width="100%" alt="">
         <h2>By {{project.users}}</h2>
         <h3>Published date:{{project.pub_date}}</h3>
-        <h5>Rates:{{rates|length}}</h5>
-        <h5>Average rates:{{avg_rates}}</h5>
-        <button style="color:rgb(2, 90, 204)" type="btn" onclick="location.href='{{search_project.link}}'" target="_blank">Visit site</button>
+        <a href="{{projectlink}}">Visit</a>
+        <h3>Rates:{{rates|length}}</h3>
+
     </div>
-    {% endif %}
-</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Usability</th>
+                <th scope="col">content</th>
+                <th scope="col">Design</th>
+                <th scope="col">Average</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for rate in rates%}
+            <tr>
+
+                <th scope="row">1</th>
+                <td>{{rate.usability}}</td>
+                <td>{{rate.content}}</td>
+                <td>{{rate.design}}</td>
+                <td>{{rate.average}}</td>
+
+            </tr>
+            {%endfor%}
+
+
+            <tr>
+                <th colspan='5' class="text-center">
+                    <a href="{%url 'addrate' project.id%}">Rate</a></th>
+            </tr>
+            <tr>
+                <th colspan='5' class="text-center">
+                    {{average}}
+                </th>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+
+</div> {% endif %}
+</div>{%endblock%}
