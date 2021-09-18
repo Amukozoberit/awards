@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 LOGIN_REDIRECT_URL='/'
 INSTALLED_APPS = [
     'bootstrap3',
+    'mathfilters',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
