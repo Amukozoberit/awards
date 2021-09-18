@@ -1,0 +1,14 @@
+<div class="row">
+
+    {% if project %}
+    <div class="col-sm-6 col-md-3">
+        <h1>Title:{{project.title}}</h1>
+        <img src="{{project.landing_page.url}}" width="100%" alt="">
+        <h2>By {{project.users}}</h2>
+        <h3>Published date:{{project.pub_date}}</h3>
+        <h5>Rates:{{rates|length}}</h5>
+        <h5>Average rates:{{avg_rates}}</h5>
+        <button style="color:rgb(2, 90, 204)" type="btn" onclick="location.href='{{search_project.link}}'" target="_blank">Visit site</button>
+    </div>
+    {% endif %}
+</div>
