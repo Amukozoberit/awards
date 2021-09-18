@@ -1,0 +1,26 @@
+{%extends 'home/base.html'%} {% block content %}
+<div class="container">
+
+    <div class="row">
+        {% if search_project%}
+        <h2>Found {{ search_project|length }} of searched term {{message}}</h2>
+        {% else %}
+        <h2> Found 0 search_project for the search term {{message}}</h2>
+        {% endif %}
+
+    </div>
+
+    <div class="row">
+
+        {% if search_project %} {% for search_project in search_project %}
+        <div class="col-sm-6 col-md-3">
+            <h1>Title:{{search_project.title}}</h1>
+            <img src="{{search_project.landing_page.url}}" width="100%" alt="">
+            <h2>By {{search_project.users}}</h2>
+            <h3>Published date:{{search_project.pub_date}}</h3>
+            <button style="color:rgb(2, 90, 204)" type="btn" onclick="location.href='{{search_project.link}}'" target="_blank">Visit site</button>
+        </div>
+        {% endfor %} {% endif %}
+    </div>
+</div>
+{% endblock %}
