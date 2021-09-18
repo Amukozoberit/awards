@@ -1,0 +1,26 @@
+{%extends 'home/base.html'%} {%block content%}
+
+<div class="container" style="display:flex;padding:2px; flex-wrap: wrap;  margin:15px; width:100vh ">
+    {%for projects in projects%}
+    <div class="panel panel-default " style="width:max-content ">
+        <div class="panel-heading " style="display:flex">
+            <a href="{%url 'profile' projects.users.id%}" target="_blank" rel="noopener noreferrer">
+                <div class="circular-landscape " style=" margin:10px;display:inline-block;position:relative; width:50px;height:50px;overflow:hidden;border-radius: 50%; ">
+                    <img src="{{projects.users.profile.profile_pic.url}} " alt=" " style=" width:100%; height:100%; ">
+                </div>
+            </a>
+            <a href="{%url 'single_project' projects.id%}">{{projects.title}}</a>
+
+        </div>
+        <div class="panel-body" style="width:200px;height:200px;">
+            <a href=""> <img src=" {{projects.landing_page.url}} " alt=" " style="width:100%; height:100% "></a>
+        </div>
+        <!-- <div class="panel-footer ">Panel Footer</div> -->
+    </div>
+    {%empty%}
+    <h1>0 posts</h1>
+    {%endfor%}
+
+
+</div>
+{%endblock%}

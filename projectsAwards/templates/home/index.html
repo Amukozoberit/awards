@@ -3,12 +3,12 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a href="/accounts/login">Register/login</a>
     <a href="/">Home</a>
-    <a href="">Submit project</a>
-    <a href="">Projects</a>
+    <a href="{%url 'addproject'%}">Submit project</a>
+    <a href="{%url 'allproject'%}">Projects</a>
     <a href="#">Winners</a>
     <a href="#">Nominees</a>
-    <a href="#">Collections</a>
-    <a href="#">Profile</a>
+    <a href="api/profiles/">Profile API</a>
+    <a href="api/projects/">Project API</a>
 </div>
 
 <div id="main">
@@ -38,15 +38,16 @@
     <div class="container" style=" position: relative;
     text-align: center;
     color: white; height:30%">
-        <img src="/static/images/hans-isaacson-uX8wVtW5PQo-unsplash.jpg" width="100%" heght="300px !important" alt=" ">
-        <div class="left-txt " style="position: absolute;bottom:8px; left:16px "><button>Visit site</button></div>
+        <img src="{{forday.landing_page.url}}" alt="">
+        <!-- <img src="/static/images/hans-isaacson-uX8wVtW5PQo-unsplash.jpg" width="100%" heght="300px !important" alt=" "> -->
+        <div class="left-txt " style="position: absolute;bottom:8px; left:16px "><button> <a href="{{forday.link}}">Visit site</a></button></div>
         <div class="top-r" style="position:absolute; top:8px;right:16px;">
             <button type="btn" class='button'>Follow</button><button type="btn" class='button'>like</button>
 
         </div>
         <div class=" centered " style=" position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); ">
-            <h4>Title</h4>
-            <h4>Votes</h4>
+            <h4>{{forday.title}}</h4>
+            <!-- <h4>{{forday.}}</h4> -->
         </div>
     </div>
     <h2 class='text-center'>Categories</h2>
@@ -81,17 +82,45 @@
 
 
     </div>
-    <h2 class=" text-center ">Users</h2>
-    <div class="user ">
+    <table class="table">
+        <thead>
+            <tr>
+                <td colspan='5'>
+                    <h2 class=" text-center ">Users</h2>
+                </td>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
 
-        <h2>{{request.user.profile.bio}}</h2>
-        <div class="circular-landscape " style=" margin:10px;display:inline-block;position:relative; width:50px;height:50px;overflow:hidden;border-radius: 50%; ">
-            <img src="{{request.user.profile.profile_pic.url}} " alt=" " style=" width:100%; height:100%; ">
-        </div>
-        <div class="categories text-center ">
-            <button type="btn " style="background-color:transparent; opacity:0.5;width:80px;border-radius: 20px; ">some</button><button>some</button><button>some</button><button>some</button><button>some</button><button>some</button><button>some</button>
-        </div>
-    </div>
+                <th scope="col">image</th>
+                <th scope="col">Bio</th>
+                <th scope="col">Projects</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {%for user in users%}
+            <tr>
+
+                <td>
+
+                    <div class="circular-landscape " style=" margin:10px;display:inline-block;position:relative; width:50px;height:50px;overflow:hidden;border-radius: 50%; ">
+                        <img src="{{user.profile.profile_pic.url}} " alt=" " style=" width:100%; height:100%; ">
+                    </div>
+                </td>
+                <td>
+
+                    <h2>{{user.profile.bio}}</h2>
+                </td>
+
+</div>
+{%endfor%}
+
+
+
+</table>
+
 
 </div>
 {%endblock%}
