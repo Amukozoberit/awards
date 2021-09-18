@@ -47,11 +47,12 @@ class Rater(models.Model):
     design=models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(10)])
     usability=models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(10)])
     content=models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(10)])
+    average=models.FloatField(blank=True)
     # average=models.FloatField(blank=True)
-    # @classmethod
-    # def get_avg(cls):
-    #     Rater.objects.aggregate(Avg('average'))
-
+    @classmethod
+    def get_avg(cls,rates):
+        average=rates.aggregate(Avg('average'))
+        return average
 
 # class ProfileMerch(models.Model):
 #     user=models.CharField(max_length=40)
