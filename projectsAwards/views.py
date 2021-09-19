@@ -11,6 +11,7 @@ from django.contrib import messages
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializer import ProfileSerializer,ProjectSerializer
+@login_required(login_url='/accounts/login/')
 def home(request):
     projects=Project.objects.all()
     users=User.objects.all()
@@ -53,13 +54,13 @@ def home(request):
     #         print(projects)
     return render(request,'home/index.html',{'users':users,'projects':projects,'forday':forday,'likes':likes}
     )
-   
+@login_required(login_url='/accounts/login/')
 def allprojects(request):
     projects=Project.objects.all()
     # users=User.objects.all()
     return render(request,'home/allprojects.html',{'projects':projects}
     )
-
+@login_required(login_url='/accounts/login/')
 def addproject(request):
     currentu=request.user
     
@@ -81,7 +82,7 @@ def addproject(request):
             # rates=Rater.objects.all()
     return render(request,'home/newproject.html' ,{'form':form})
 
-
+@login_required(login_url='/accounts/login/')
 def addrate(request,id):
     currentu=request.user
     currentP=Project.objects.get(id=id)
@@ -110,7 +111,7 @@ def addrate(request,id):
         
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
+@login_required(login_url='/accounts/login/')
 def editProfile(request,id):
     prof=Profile.objects.get(id=id)
     form=ProfileForm()
@@ -120,6 +121,7 @@ def editProfile(request,id):
 
 # @login_required
 # @transaction.atomic
+@login_required(login_url='/accounts/login/')
 def update_profile(request):
         if request.method == 'POST':
             print('not yet')
@@ -142,7 +144,7 @@ def update_profile(request):
         # 'user_form': user_form,
         'form': profile_form
     })
-    
+@login_required(login_url='/accounts/login/')
 def search_results(request):
     if 'projects' in request.GET and request.GET['projects']:
         search_term=request.GET.get('projects')
@@ -151,7 +153,7 @@ def search_results(request):
 
         return render(request,'home/search.html',{"message":message,'search_project':searched_project})
 
-
+@login_required(login_url='/accounts/login/')
 def single_project(request,id):
     project=Project.objects.get(id=id)
     rates=Rater.objects.filter(projects=id)
@@ -165,7 +167,7 @@ def single_project(request,id):
     
     
     return render(request,'home/single_project.html',{'project':project,'rates':rates,'average':average,'likes':lik})
-
+@login_required(login_url='/accounts/login/')
 def likeproject(request,id):
     postTobeliked=Project.objects.get(id=id)
     currentUser=User.objects.get(id=request.user.id)
@@ -193,7 +195,7 @@ def likeproject(request,id):
 
 
 
-
+@login_required(login_url='/accounts/login/')
 def single_profile(request,id):
     prof=User.objects.get(id=id)
     projects=Project.objects.filter(users=1)
