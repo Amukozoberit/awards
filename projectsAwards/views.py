@@ -1,6 +1,6 @@
 from django.db.models import Avg
 from django.db.models import Count
-from .models import Project,Profile, Rater
+from .models import Likes, Project,Profile, Rater
 from .forms import ProfileForm, ProjectsForm, RatesForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -34,11 +34,13 @@ def home(request):
         print(average)
         if average['average__avg']==max(avgs):
          max_avg=rates['projects']
-        else:
-            max_avg=1
+
 
 
     forday=Project.objects.get(id=max_avg)
+    print(forday)
+    print(max_avg)
+    likes=Likes.objects.filter(project_id=max_avg)
 
 
 
@@ -49,7 +51,7 @@ def home(request):
     #     projects=Project.objects.get(id=rates['projects'])
     #     for projects in projects:
     #         print(projects)
-    return render(request,'home/index.html',{'users':users,'projects':projects,'forday':forday}
+    return render(request,'home/index.html',{'users':users,'projects':projects,'forday':forday,'likes':likes}
     )
    
 def allprojects(request):
@@ -119,8 +121,6 @@ def editProfile(request,id):
 # @login_required
 # @transaction.atomic
 def update_profile(request):
-    if request.user.id==1:
-        print('yes go on')
         if request.method == 'POST':
             print('not yet')
             # user_form = UserForm(request.POST, instance=request.user)
@@ -142,8 +142,7 @@ def update_profile(request):
         # 'user_form': user_form,
         'form': profile_form
     })
-    else:
-        return redirect('/')
+    
 def search_results(request):
     if 'projects' in request.GET and request.GET['projects']:
         search_term=request.GET.get('projects')
@@ -158,17 +157,48 @@ def single_project(request,id):
     rates=Rater.objects.filter(projects=id)
     
     average=Rater.get_avg(rates)
+    average=average['average__avg']
     
-    
+    lik=Likes.objects.filter(project_id=id)
+    print(f'{lik} likes')
 
     
-    return render(request,'home/single_project.html',{'project':project,'rates':rates,'average':average})
+    
+    return render(request,'home/single_project.html',{'project':project,'rates':rates,'average':average,'likes':lik})
+
+def likeproject(request,id):
+    postTobeliked=Project.objects.get(id=id)
+    currentUser=User.objects.get(id=request.user.id)
+    postowner=User.objects.get(id=postTobeliked.users.id)
+    print(currentUser)
+    likes=Likes.objects.filter(id=id)
+    likeToadd=Likes(user=currentUser,project=postTobeliked)
+    all=[]
+    for alr in likes:
+       all.append(alr.user.id)
+       print(f'{all}id')
+    if not request.user.id in all:
+        if postowner.id ==currentUser.id :
+                print('yer')
+                # alert('cant like own picture')
+                # folowerToremove=Followers(name=request.user.username,user_id=userTobefollowed.id,follower_id=request.user.url)
+                # folowerToremove.remove(currentUser)
+        else:   
+                print('no')
+                # likeToadd=LikeClass(user_id=currentUser,post_id=postTobeliked)
+                print(likeToadd)
+                likeToadd.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
 
 
 def single_profile(request,id):
     prof=User.objects.get(id=id)
     projects=Project.objects.filter(users=1)
-    return render(request,'profile/profile.html',{'profile':prof,'projects':projects})
+  
+    return render(request,'profile/profile.html',{'profile':prof,'projects':projects,})
 # @login_required
 
 # def update_profile(request):
