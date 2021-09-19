@@ -1,54 +1,61 @@
 {%extends 'home/base.html'%} {%block content%}
-<div class="row">
+<div class="project">
 
     {% if project %}
-    <div class="col-sm-6 col-md-3">
-        <h1>Title:{{project.title}}</h1>
+    <div class="row">
+        <h1 class="text-center">Title:{{project.title}}</h1>
         <img src="{{project.landing_page.url}}" width="100%" alt="">
-        <h2>By {{project.users}}</h2>
-        <h3>Published date:{{project.pub_date}}</h3>
-        <a href="{{projectlink}}">Visit</a>
-        <h3>Rates:{{rates|length}}</h3>
 
     </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Usability</th>
-                <th scope="col">content</th>
-                <th scope="col">Design</th>
-                <th scope="col">Average</th>
-            </tr>
-        </thead>
-        <tbody>
-            {%for rate in rates%}
-            <tr>
+    <div class="projects">
+        <div class="c text-center">
+            <h2>By {{project.users}}</h2>
+            <h3>Published date:{{project.pub_date}}</h3>
 
-                <th scope="row">1</th>
-                <td>{{rate.usability}}</td>
-                <td>{{rate.content}}</td>
-                <td>{{rate.design}}</td>
-                <td>{{rate.average}}</td>
+            <button><a href="{{project.link}}" target="_blank " rel="noopener noreferrer ">visit</a>
+            </button><button> <a href="{% url 'likeproject' project.id%}">Like: {{likes|length}}</a>
+</button>
+            <h3>Rates:{{rates|length}}</h3>
+        </div>
 
-            </tr>
-            {%endfor%}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Usability</th>
+                    <th scope="col">content</th>
+                    <th scope="col">Design</th>
+                    <th scope="col">Average</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for rate in rates%}
+                <tr>
 
+                    <th scope="row">1</th>
+                    <td>{{rate.usability}}</td>
+                    <td>{{rate.content}}</td>
+                    <td>{{rate.design}}</td>
+                    <td>{{rate.average}}</td>
 
-            <tr>
-                <th colspan='5' class="text-center">
-                    <a href="{%url 'addrate' project.id%}">Rate</a></th>
-            </tr>
-            <tr>
-                <th colspan='5' class="text-center">
-                    {{average}}
-                </th>
-            </tr>
-        </tbody>
-    </table>
+                </tr>
+                {%endfor%}
 
 
+                <tr>
+                    <th colspan='5' class="text-center">
+                        <a href="{%url 'addrate' project.id%}">Rate</a></th>
+                </tr>
+                <tr>
+                    <th colspan='5' class="text-center">
+                        {%if average%} Average: {{average}}{%else%}Average:0{%endif%}
+                    </th>
+                </tr>
+            </tbody>
+        </table>
 
 
-</div> {% endif %}
+
+    </div>
+    {% endif %}
 </div>{%endblock%}
