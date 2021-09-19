@@ -14,6 +14,7 @@ url('addrate/(\d+)', views.addrate, name='addrate'),
 url('editprofile/', views.update_profile, name='editprofile'),
 url('addproject/', views.addproject, name='addproject'),
 url('allproject/', views.allprojects, name='allproject'),
+url('like/(\d+)', views.likeproject, name='likeproject'),
 # url('siteofday/', views.siteofDay, name='siteofDay')
 #  url(r'profile',views.update_profile,name='profilepage')]
 ]
