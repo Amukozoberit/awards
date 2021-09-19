@@ -60,3 +60,7 @@ class Rater(models.Model):
 
 #     bio=models.TextField(max_length=40)
 #     contact=models.TextField(max_length=40)
+class Likes(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    project=models.ForeignKey(Project,on_delete=models.CASCADE)
+
