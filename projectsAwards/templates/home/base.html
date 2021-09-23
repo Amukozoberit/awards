@@ -32,6 +32,7 @@
         <a href="{%url 'profile' request.user.id%} " target="_blank " rel="noopener noreferrer ">Profile</a>
         <a href="api/profiles/">Profile API</a>
         <a href="api/projects/">Project API</a>
+        <a href="/accounts/logout">Logout</a>
         </div>{%block content%}{%endblock%} {% block scripts %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript" src="{%static 'js/basejs.js'%}"></script> {% bootstrap_javascript %} {% endblock %}
